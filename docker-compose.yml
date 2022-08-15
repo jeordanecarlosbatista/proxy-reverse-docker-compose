@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  nginx:
+    container_name: proxy
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  app1:
+    container_name: app1
+    build: ./app1
+    restart: always
+    environment:
+      VIRTUAL_HOST: app1.localhost
+      VIRTUAL_PORT: 3000
+
+  app2:
+    container_name: app2
+    build: ./app2
+    restart: always
+    environment:
+      VIRTUAL_HOST: app2.localhost
+      VIRTUAL_PORT: 3000
